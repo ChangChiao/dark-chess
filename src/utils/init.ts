@@ -2,7 +2,7 @@ import { CHESS_LIST } from "../global/config";
 import { getRandom } from "./common";
 export const shuffle = () => {
 console.log('createChess', createChess())
-  const keysArr = Object.keys(CHESS_LIST);
+  const keysArr = Object.keys(createChess());
   for (let i = 0; i < keysArr.length; i++) {
     const target = getRandom(0, keysArr.length - 1);
     console.log("target", target);

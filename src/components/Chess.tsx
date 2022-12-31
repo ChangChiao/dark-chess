@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useMemo } from "react";
 import { ChessType } from "../types/chess";
+import { CHESS_LIST } from "../global/config";
 
 const Chess = ({ id, status }: ChessType) => {
   const isBlack = useMemo(() => {
@@ -21,7 +22,7 @@ const Chess = ({ id, status }: ChessType) => {
                 : "border-red-600 text-red-600"
             )}
           >
-            車
+            {CHESS_LIST[id]}
           </div>
         )}
       </div>
