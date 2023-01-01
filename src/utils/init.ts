@@ -1,8 +1,8 @@
+import { ChessKey } from './../types/chess';
 import { CHESS_LIST } from "../global/config";
-import { getRandom } from "./common";
+import { getRandom, getLevel } from "./common";
 export const shuffle = () => {
-console.log('createChess', createChess())
-  const keysArr = Object.keys(createChess());
+  const keysArr = createChess();
   for (let i = 0; i < keysArr.length; i++) {
     const target = getRandom(0, keysArr.length - 1);
     console.log("target", target);
@@ -17,7 +17,7 @@ console.log('createChess', createChess())
 export const createChess = () => {
   const keysArr = Object.keys(CHESS_LIST);
   return keysArr.reduce((prev, current) => {
-    const type = Number(current.substring(1, 2));
+    const type = getLevel(current)
     let arr = [];
     if (type === 1) {
       arr = new Array(5).fill(current);
@@ -27,5 +27,5 @@ export const createChess = () => {
       arr = new Array(2).fill(current);
     }
     return [...prev, ...arr];
-  }, [] as string[]);
+  }, [] as ChessKey[]);
 };

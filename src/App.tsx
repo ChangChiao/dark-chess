@@ -6,9 +6,6 @@ import Chess from "./components/Chess";
 import { CHESS_LIST } from "./global/config";
 
 function App() {
-  // const genChess = () => {
-  //   return { id: getRandom(0, 1000).toString(), status: 0 };
-  // };
   const genChess = () => {
     const arr = shuffle()
     return arr.map(item => ({ id: item, status: 1 }));
