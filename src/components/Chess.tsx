@@ -18,6 +18,25 @@ const Chess = ({ id, status, index, current, setCurrent }: ChessProps) => {
     return current === index
   }, [current, index])
 
+  const isLineExist = useMemo(() => {
+    return index === 19 || index === 20 || index === 27 || index === 28
+  }, [index])
+
+  const setLine = useMemo(() => {
+    switch (index) {
+        case 19:
+            return 'before:-rotate-45'
+        case 20:
+            return 'before:rotate-45'
+        case 27:
+            return 'before:-rotate-[135deg]'
+        case 28:
+            return 'before:rotate-[135deg]'
+        default:
+            return null
+    }
+  }, [index])
+
   const handleClick = () => {
     if (isCurrent) {
       setCurrent(-1);
@@ -29,12 +48,14 @@ const Chess = ({ id, status, index, current, setCurrent }: ChessProps) => {
     <div
       onClick={handleClick}
       className={clsx(
-        "border-r-2 relative border-gray-500 h-32 w-32 border-b-2 flex justify-center items-center",
+        "panel",
+        setLine,
+        isLineExist && "panel-line",
         isCurrent && "after:absolute after:h-[110px] after:w-[110px] after:border-2 after:content-[''] after:border-red-500",
     )}
       key={id}
     >
-      <div className="w-28 h-28 chess cursor-pointer  bg-orange-300 rounded-full flex justify-center items-center">
+      <div className="w-28 h-28 relative chess cursor-pointer  bg-orange-300 rounded-full flex justify-center items-center">
         {status !== 0 && (
           <div
             className={clsx(
