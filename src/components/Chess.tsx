@@ -45,7 +45,7 @@ const Chess = ({ pos, id, status, index, current, setCurrent }: ChessProps) => {
   };
   return (
     <div
-      className="w-32 h-32 relative"
+      className="w-32 h-32 relative flex items-center justify-center"
     >
       {id && (
         <div key={id} onClick={handleClick} className="w-28 h-28 relative chess cursor-pointer  bg-orange-300 rounded-full flex justify-center items-center">
