@@ -1,16 +1,12 @@
 import { ChessKey } from './../types/chess';
 import { CHESS_LIST } from "../global/config";
 import { getRandom, getLevel } from "./common";
-export const shuffle = () => {
-  const keysArr = createChess();
+export const shuffle = (keysArr: string[]) => {
   for (let i = 0; i < keysArr.length; i++) {
-    const target = getRandom(0, keysArr.length - 1);
-    console.log("target", target);
+    const target = getRandom(i, keysArr.length - 1);
 
     [keysArr[i], keysArr[target]] = [keysArr[target], keysArr[i]];
   }
-  console.log("keysArr", keysArr);
-
   return keysArr;
 };
 

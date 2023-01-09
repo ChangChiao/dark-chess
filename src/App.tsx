@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { getRandom } from "./utils/common";
-import { shuffle } from "./utils/init";
+import { shuffle, createChess } from "./utils/init";
 import { ChessType } from "./types/chess";
 import Chess from "./components/Chess";
+import { v4 as uuidv4 } from 'uuid';
 import { CHESS_LIST } from "./global/config";
 import Panel from "./components/Panel";
 
 function App() {
   const genChess = () => {
-    const arr = shuffle();
-    return arr.map((item) => ({ id: item, status: 1 }));
+    const chess = createChess();
+    const firstRound = shuffle(chess);
+    const arr = shuffle(firstRound);
+    return arr.map((item) => ({ id: item, status: 1, uuid:uuidv4() }));
   };
   const [pos, setPos] = useState<ChessType[]>(genChess());
   const [current, setCurrent] = useState<number>(-1);
@@ -20,14 +23,14 @@ function App() {
         <div className="border-t-2 border-l-2 border-black relative ">
           <div className="flex flex-wrap absolute left-0 right-0 w-[1060px] h-[510px]">
             {Array.from({ length: 32 }).map((item, i) => (
-              <Panel index={i} current={current} />
+              <Panel key={i} index={i} current={current} />
             ))}
           </div>
           <div className="flex flex-wrap">
             {pos.map((item, i) => (
               <Chess
                 pos={pos}
-                key={i}
+                key={item.uuid ?? `empty_${i}`}
                 index={i}
                 current={current}
                 setCurrent={setCurrent}
