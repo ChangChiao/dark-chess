@@ -18,7 +18,7 @@ export type ChessDict = {
 export type ChessKey = keyof ChessDict;
 
 export type ChessType = {
-    id: ChessKey | null;
+    id: ChessKey;
     uuid: string;
     status: number // 0蓋住 1翻開 2被吃掉
-}
+}  | null;

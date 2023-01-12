@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { getRandom } from "./utils/common";
 import { shuffle, createChess } from "./utils/init";
-import { ChessType } from "./types/chess";
+import { ChessType, ChessKey } from "./types/chess";
 import Chess from "./components/Chess";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { CHESS_LIST } from "./global/config";
 import Panel from "./components/Panel";
 
@@ -11,11 +11,18 @@ function App() {
   const genChess = () => {
     const chess = createChess();
     const firstRound = shuffle(chess);
-    const arr = shuffle(firstRound);
-    return arr.map((item) => ({ id: item, status: 1, uuid:uuidv4() }));
+    const arr = shuffle(firstRound) as ChessKey[] ;
+    return arr.map((item) => ({ id: item, status: 1, uuid: uuidv4() }));
   };
   const [pos, setPos] = useState<ChessType[]>(genChess());
   const [current, setCurrent] = useState<number>(-1);
+  const [eatedRed, setEatedRed] = useState<ChessType[]>([])
+  const [eatedBlack, setEatedBlack] = useState<ChessType[]>([])
+
+  const handleEat = (index: number) => {
+    const copyPos = [ ...pos ];
+    const target = copyPos.splice(index, 1);
+  }
 
   return (
     <div className="App h-screen w-screen bg-cyan-900">
@@ -27,16 +34,20 @@ function App() {
             ))}
           </div>
           <div className="flex flex-wrap">
-            {pos.map((item, i) => (
-              <Chess
-                pos={pos}
-                key={item.uuid ?? `empty_${i}`}
-                index={i}
-                current={current}
-                setCurrent={setCurrent}
-                {...item}
-              />
-            ))}
+            {pos.map(
+              (item, i) =>
+                item && (
+                  <Chess
+                    pos={pos}
+                    handleEat={handleEat}
+                    key={item.uuid ?? `empty_${i}`}
+                    index={i}
+                    current={current}
+                    setCurrent={setCurrent}
+                    {...item}
+                  />
+                )
+            )}
           </div>
         </div>
       </div>

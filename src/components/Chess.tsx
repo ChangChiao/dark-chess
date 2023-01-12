@@ -1,16 +1,17 @@
 import clsx from "clsx";
 import { useMemo } from "react";
-import { ChessType } from "../types/chess";
+import { ChessType, ChessKey } from "../types/chess";
 import { CHESS_LIST } from "../global/config";
-
+import { checkEat } from "../utils/compare";
 type ChessProps = {
   index: number;
   current: number;
   pos: ChessType[];
+  handleEat: (index: number) => void
   setCurrent: (param: number) => void;
 } & ChessType;
 
-const Chess = ({ pos, id, status, index, current, setCurrent }: ChessProps) => {
+const Chess = ({ pos, id, status, index, current, setCurrent, handleEat }: ChessProps) => {
   const isBlack = useMemo(() => {
     if (!id) return false;
     return id.substring(0, 1) === "B";
@@ -21,18 +22,20 @@ const Chess = ({ pos, id, status, index, current, setCurrent }: ChessProps) => {
   }, [current, index]);
 
   const checkVaild = () => {
-    const self = pos[current]?.id;
-    return self !== null
+    const self = pos[current];
+    return self === null
   }
 
   const checkSelect = () => {
-    const self = pos[current];
-    const target = pos[index];
+    const self = pos[current]
+    const target = pos[index]
+    const result = checkEat(self!.id, target!.id);
+    if(result) handleEat(index);
   };
 
 
   const handleClick = () => {
-    if(!checkVaild()) return;
+    if(checkVaild()) return;
     if (current !== -1) {
       if (isCurrent) {
         setCurrent(-1);
